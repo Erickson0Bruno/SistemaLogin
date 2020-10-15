@@ -33,7 +33,14 @@ require("./config/authorization")(passport)
     app.set('view engine', 'handlebars');
     app.set('views', 'views');
     
-    
+    //Mongoose
+    mongooe.Promise = global.Promise
+    mongooe.connect("mongodb://localhost:27017/sitemaLogin").then(() =>{
+        console.log("Conectado!")
+    }).catch((err) => {
+        console.log("Erro ao se Conectar: "+ err)
+    })
+
     //Public -- pasta do bootstrap
     app.use(express.static(path.join(__dirname, "public")));
 
@@ -41,6 +48,7 @@ require("./config/authorization")(passport)
     app.use((req, res, next) =>{
         res.locals.success_mgs = req,flash("success_mgs")  
         res.locals.error_msg = req.flash("error_msg")
+        res.locals.error = req.flash("error")
         next()
 
     })
