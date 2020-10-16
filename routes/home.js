@@ -4,10 +4,9 @@ const passport = require("passport")
 
 router.get('/', (req, res) => {
     res.render("admin/home.handlebars");
-    
+
 });
 
-
-
+ 
 
 module.exports = router
