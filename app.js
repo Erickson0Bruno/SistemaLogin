@@ -7,9 +7,9 @@ const admin = require('./routes/admin')
 const user = require('./routes/usuario')
 const home = require('./routes/home')
 const path = require('path')
-const mongooe = require("mongoose")
 const session = require("express-session")
 const flash = require("connect-flash")
+const mongoose = require("./config/db_conection")
 //const usuarios = require("./routes/usuario")
 const passport = require('passport')
 require("./config/authorization")(passport)
@@ -17,7 +17,8 @@ require("./config/authorization")(passport)
     //Session
     app.use(session({
         secret: "teste",
-        resave: true,
+        resave: false,
+//        ttl: 1*5, //60 segundos de seção -- apenas para teste
         saveUninitialized: true
     }))
     app.use(passport.initialize())
@@ -33,13 +34,7 @@ require("./config/authorization")(passport)
     app.set('view engine', 'handlebars');
     app.set('views', 'views');
     
-    //Mongoose
-    mongooe.Promise = global.Promise
-    mongooe.connect("mongodb://localhost:27017/sitemaLogin").then(() =>{
-        console.log("Conectado!")
-    }).catch((err) => {
-        console.log("Erro ao se Conectar: "+ err)
-    })
+   //Conecção com o banco foi exportado pra o arquivo config/db_conection.js
 
     //Public -- pasta do bootstrap
     app.use(express.static(path.join(__dirname, "public")));

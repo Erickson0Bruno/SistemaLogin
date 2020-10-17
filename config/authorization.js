@@ -15,28 +15,46 @@ module.exports = function(passport){
 
         Usuario.findOne({email: email}).then((usuario) => {
             if(!usuario){
+                
                 return done(null, false, {message: "Esta conta nao existe"})
             }
 
-            bcrypt.compare( senha, usuario.senha, (erro, batem) =>{
-                if(batem){
+           /* bcrypt.compare( senha, usuario.senha, (erro, batem) =>{
+                if(!batem){
+                    console.log("Batem ")
                     return done(null, usuario)
                 }else{
+                    console.log("Não Batem ")
                     return done(null, false, {message:"Senha incorreta"})
                 }
+            })
+            */
+            // comparando as senhas
+            console.log("Senha digitada:"+senha)
+            console.log("Senha banco:" +usuario.senha)
+            bcrypt.compare(senha, usuario.senha, (err, isValid) => {
+                console.log(isValid)
+                if (err) { 
+                    return done(err) 
+                }if (!isValid) {
+                    
+                    return done(null, false) 
+                }
+                console.log("Batem ")
+                return done(null, usuario)
             })
 
         })
 
     }))
 
-    passport.serializeUser((user, done) => {
+    passport.serializeUser((usuario, done) => {
         done(null, usuario.id)
     })
 
     passport.deserializeUser((id, done) =>{
         Usuario.findById(id, (err, usuario) =>{
-            done(err, user)
+            done(err, usuario)
         })
     })
 

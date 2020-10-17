@@ -23,3 +23,16 @@ const Usuario = new Schema({
 })
 
 mongoose.model("usuarios", Usuario)
+/*
+const novoUsuario = mongoose.model('usuarios')
+new novoUsuario({
+    nome: "Erickson Bruno",
+    email: "erickson.bruno.costa@gmail.com",
+    eAdmin: 1,
+    senha: "123515184848818181818181818188184689489"
+
+
+}).save().then(() =>{
+    console.log("Salvo Com Sucesso")
+}
+).catch() */
