@@ -3,16 +3,18 @@ const express = require('express')
 const handlebars =  require('express-handlebars')
 const bodyParser = require("body-parser")
 const app = express()
-const admin = require('./routes/admin')
-const user = require('./routes/usuario')
-const home = require('./routes/home')
 const path = require('path')
 const session = require("express-session")
 const flash = require("connect-flash")
 const mongoose = require("./config/db_conection")
-//const usuarios = require("./routes/usuario")
 const passport = require('passport')
 require("./config/authorization")(passport)
+
+//Declaracao de Rotas
+const usuarios = require("./routes/usuario")
+const admin = require('./routes/admin')
+const home = require('./routes/home')
+
 //Configurations 
     //Session
     app.use(session({
@@ -25,7 +27,6 @@ require("./config/authorization")(passport)
     app.use(passport.session())
     app.use(flash())
 
-    app.use(flash());
     //Body Parser
         app.use(bodyParser.urlencoded({extended: true}));
         app.use(bodyParser.json());
@@ -41,7 +42,8 @@ require("./config/authorization")(passport)
 
     //Midwares
     app.use((req, res, next) =>{
-        res.locals.success_mgs = req,flash("success_mgs")  
+        //criando variaveis globais 
+        res.locals.success_mgs = req.flash("success_mgs")  
         res.locals.error_msg = req.flash("error_msg")
         res.locals.error = req.flash("error")
         next()
@@ -50,8 +52,8 @@ require("./config/authorization")(passport)
    
 //Routes
 app.use('/admin', admin);
-app.use('/usuario', user);
 app.use('/', home)
+app.use('/usuarios', usuarios);
 
 
 

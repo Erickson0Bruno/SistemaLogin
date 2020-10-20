@@ -27,11 +27,13 @@ router.get('/login', function(req, res){
 
 router.post("/login", (req, res, next) =>{
     //res.send("Email: " + req.body.email);
-   // console.log("Passou pelo metodo POST")
+   // console.log("Passou pelo metodo POST")  
+
     passport.authenticate("local", {
         successRedirect : "/",
         failureRedirect : "/admin/login",
-        failureFlash : true
+        failureFlash : true,
+        
         
     })(req,res, next)
 
