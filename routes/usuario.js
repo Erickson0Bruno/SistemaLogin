@@ -5,7 +5,11 @@ require('../models/Usuario')
 const Usuario = mongoose.model('usuarios')
 const bcrypt = require('bcryptjs')
 
-router.get('/registro', (req, res) => {
+//Helpers
+const {Admin} = require('../helpers/verificaAdmin')
+const {AuthenticatedUser} = require('../helpers/verificaAdmin')
+ 
+router.get('/registro', Admin, (req, res) => {
     res.render('usuarios/registro');
 });
 
@@ -36,7 +40,7 @@ router.post('/registro', (req, res) => {
         res.render('usuarios/registro', {erros: erros});
     }else{
        
-        Usuario.findOne({emial: req.body.email}).then((usuario)  => {
+        Usuario.findOne({email: req.body.email}).then((usuario)  => {
             if(usuario){
                 console.log("Já existe uma conta com este email")
                 req.flash("error_msg", "Já existe uma conta com este email")

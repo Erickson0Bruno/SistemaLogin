@@ -16,7 +16,7 @@ module.exports = function(passport){
         Usuario.findOne({email: email}).then((usuario) => {
             if(!usuario){
                 
-                return done(null, false, {message: "Esta conta nao existe"})
+                return done(null, false, {message: "Esta conta não existe"})
             }
 
            /* bcrypt.compare( senha, usuario.senha, (erro, batem) =>{
@@ -30,17 +30,15 @@ module.exports = function(passport){
             })
             */
             // comparando as senhas
-            console.log("Senha digitada:"+senha)
-            console.log("Senha banco:" +usuario.senha)
             bcrypt.compare(senha, usuario.senha, (err, isValid) => {
-                console.log(isValid)
+                
                 if (err) { 
                     return done(err) 
                 }if (!isValid) {
                     
-                    return done(null, false) 
+                    return done(null, false, {message: "Senha incorreta"}) 
                 }
-                console.log("Batem ")
+
                 return done(null, usuario)
             })
 
