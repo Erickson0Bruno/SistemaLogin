@@ -39,7 +39,7 @@ module.exports = function(passport){
                     return done(null, false, {message: "Senha incorreta"}) 
                 }
 
-                return done(null, usuario)
+                return done(null, usuario) 
             })
 
         })
