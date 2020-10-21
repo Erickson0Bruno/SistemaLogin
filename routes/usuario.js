@@ -9,7 +9,7 @@ const bcrypt = require('bcryptjs')
 const {Admin} = require('../helpers/verificaAdmin')
 const {AuthenticatedUser} = require('../helpers/verificaAdmin')
  
-router.get('/registro', Admin, (req, res) => {
+router.get('/registro',  (req, res) => {
     res.render('usuarios/registro');
 });
 
